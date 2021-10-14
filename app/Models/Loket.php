@@ -9,5 +9,5 @@ class Loket extends Model
 {
     // use HasFactory;
     protected $table = 'lokets';
-    protected $fillable = ['nama_loket'];
+    protected $fillable = ['nama_loket', 'desc'];
 }

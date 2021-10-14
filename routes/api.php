@@ -25,6 +25,10 @@ use App\Http\Controllers\Antrian;
 
 Route::group(['prefix' => 'news'], function ($router){
     Route::get('/getNews', [Berita::class, 'getNews']);
+    
+    // admin area
+    Route::get('/getAllNews', [Berita::class, 'getAllNews']);
+    Route::post('/saveNews', [Berita::class, 'saveNews']);
 });
 
 Route::group(['prefix' => 'layanan'], function ($router){
@@ -36,6 +40,10 @@ Route::group(['prefix' => 'layanan'], function ($router){
 Route::group(['prefix' => 'loket'], function ($router){
     Route::get('/getLoket', [Loket::class, 'getLoket']);
     Route::get('/getLoketSingle/{id}', [Loket::class, 'getLoketSingle']);
+    // admin area
+    Route::get('/getAllLoket', [Loket::class, 'getAllLoket']);
+    Route::post('/addLoket', [Loket::class, 'addLoket']);
+    Route::get('/removeLoket/{id}', [Loket::class, 'removeLoket']);
 });
 
 Route::group(['prefix' => 'antrian'], function($router){

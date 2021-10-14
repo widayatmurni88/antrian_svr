@@ -16,7 +16,8 @@ class CreateLoketsTable extends Migration
         Schema::create('lokets', function (Blueprint $table) {
             $table->id();
             $table->string('nama_loket');
-            $table->unsignedBigInteger('id_layanan');
+            $table->string('desc');
+            $table->unsignedBigInteger('id_layanan')->nullable();
             $table->timestamps();
 
             $table->foreign('id_layanan')->references('id')->on('layanans')->onDelete('cascade')->onUpdate('cascade');
