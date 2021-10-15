@@ -34,7 +34,11 @@ Route::group(['prefix' => 'news'], function ($router){
 Route::group(['prefix' => 'layanan'], function ($router){
     Route::get('/getLayanan', [Layanan::class, 'getLayanan']);
     Route::get('/getLayananName/{code}', [Layanan::class, 'getLayananName']);
-    Route::get('/getIdLayanan/{code}', [layanan::class, 'getIdLayanan']);
+    Route::get('/getIdLayanan/{code}', [Layanan::class, 'getIdLayanan']);
+    // admin area
+    Route::post('/addData', [Layanan::class, 'addData']);
+    Route::put('/updateData', [Layanan::class, 'updateData']);
+    Route::get('/removeLayanan/{id}',[Layanan::class, 'removeLayanan']);
 });
 
 Route::group(['prefix' => 'loket'], function ($router){
@@ -44,6 +48,7 @@ Route::group(['prefix' => 'loket'], function ($router){
     Route::get('/getAllLoket', [Loket::class, 'getAllLoket']);
     Route::post('/addLoket', [Loket::class, 'addLoket']);
     Route::get('/removeLoket/{id}', [Loket::class, 'removeLoket']);
+    Route::put('/updateData', [Loket::class, 'updateData']);
 });
 
 Route::group(['prefix' => 'antrian'], function($router){

@@ -70,4 +70,17 @@ class Loket extends Controller
 
         return response()->json(compact('response'), 200);
     }
+
+    public function updateData(Request $req){
+        $loket = MLoket::find($req->id);
+        $loket->nama_loket = $req->loket_no;
+        $loket->desc = $req->desc;
+        $loket->save();
+        $response=[
+            'status' => true,
+            'msg' => 'Success',
+            'content' => $loket
+        ];
+        return response()->json(compact('response'), 200);
+    }
 }
