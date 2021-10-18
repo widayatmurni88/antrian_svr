@@ -52,6 +52,7 @@ Route::group(['prefix' => 'layanan'], function ($router){
     Route::get('/removeLayanan/{id}',[Layanan::class, 'removeLayanan']);
 
     Route::get('/getLimiter', [Layanan::class, 'getLimiter']);
+    Route::post('updateLimit', [Layanan::class, 'updateLimit']);
 });
 
 Route::group(['prefix' => 'loket'], function ($router){
@@ -81,6 +82,7 @@ Route::group(['prefix' => 'user'], function ($router){
     });
 
     // admin area
+    Route::post('superLogin', [User::class, 'superLogin']);
     Route::get('/getUsers', [User::class, 'getUsers']);
     Route::post('/addUser', [User::class, 'addUser']);
     Route::post('/editUser', [User::class, 'editUser']);

@@ -83,4 +83,22 @@ class Layanan extends Controller
         $limiter = MLayanan::get(['id', 'nama_layanan as layanan', 'limit_time_start as limit_start', 'limit_time_end as limit_end', 'limit_quota']);
         return response()->json(compact('limiter'), 200);
     }
+
+    public function updateLimit(Request $req){
+        $limit = Mlayanan::find($req->id);
+
+        if ($limit) {
+            $limit->limit_time_start = $req->limit_start;
+            $limit->limit_time_end = $req->limit_end;
+            $limit->limit_quota = $req->limit_quota;
+            $limit->save();
+
+            $response = [
+                'status' => true,
+                'msg' => 'Success'
+            ];
+
+            return response()->json(compact('response'), 200);
+        }
+    }
 }

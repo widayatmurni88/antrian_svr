@@ -20,5 +20,13 @@ class UserSeed extends Seeder
             'password' => \Hash::make('123'),
             'status' => 'aktif',
         ]);
+
+        User::create([
+            'email' => 'admin@mail.com',
+            'name' => 'admin',
+            'password' => \Hash::make('123'),
+            'status' => 'aktif',
+            'role' => true
+        ]);
     }
 }
