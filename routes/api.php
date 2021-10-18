@@ -7,6 +7,7 @@ use App\Http\Controllers\Layanan;
 use App\Http\Controllers\Loket;
 use App\Http\Controllers\User;
 use App\Http\Controllers\Antrian;
+use App\Http\Controllers\Multimedia;
 
 /*
 |--------------------------------------------------------------------------
@@ -23,12 +24,22 @@ use App\Http\Controllers\Antrian;
 //     return $request->user();
 // });
 
+Route::group(['prefix' => 'multimedia'], function ($router){
+    // admin area
+    Route::get('/getMedia', [Multimedia::class, 'getMedia']);
+    Route::post('/uploadFile', [Multimedia::class, 'uploadFile']);
+    Route::delete('/delete/{id}', [Multimedia::class, 'deleteVideo']);
+    Route::get('/setVisible/{id}', [Multimedia::class, 'setVisible']);
+});
+
 Route::group(['prefix' => 'news'], function ($router){
     Route::get('/getNews', [Berita::class, 'getNews']);
     
     // admin area
     Route::get('/getAllNews', [Berita::class, 'getAllNews']);
     Route::post('/saveNews', [Berita::class, 'saveNews']);
+    Route::put('/updateNews', [Berita::class, 'updateNews']);
+    Route::delete('/delete/{id}', [Berita::class, 'deleteNews']);
 });
 
 Route::group(['prefix' => 'layanan'], function ($router){
@@ -39,6 +50,8 @@ Route::group(['prefix' => 'layanan'], function ($router){
     Route::post('/addData', [Layanan::class, 'addData']);
     Route::put('/updateData', [Layanan::class, 'updateData']);
     Route::get('/removeLayanan/{id}',[Layanan::class, 'removeLayanan']);
+
+    Route::get('/getLimiter', [Layanan::class, 'getLimiter']);
 });
 
 Route::group(['prefix' => 'loket'], function ($router){
@@ -66,4 +79,11 @@ Route::group(['prefix' => 'user'], function ($router){
         Route::post('/logout', [User::class, 'logout']);
         Route::get('/getProfile/{id}', [User::class, 'getProfile']);
     });
+
+    // admin area
+    Route::get('/getUsers', [User::class, 'getUsers']);
+    Route::post('/addUser', [User::class, 'addUser']);
+    Route::post('/editUser', [User::class, 'editUser']);
+    Route::post('/resetPassword', [User::class, 'resetPassword']);
+    Route::delete('/removeUser', [User::class, 'removeUser']);
 });

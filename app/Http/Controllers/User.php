@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Arr;
+use Illuminate\Support\Facades\DB;
 use App\Models\User as MUser;
 
 class User extends Controller
@@ -76,5 +77,85 @@ class User extends Controller
     public function getProfile($id){
         $user = MUser::find($id)->first();
         return response()->json(compact('user'), 200);
+    }
+
+    public function getUsers(){
+        $users = MUser::get(['id', 'name', 'email', 'status']);
+        return response()->json(compact('users'), 200);
+    }
+
+    public function addUser(Request $req){
+        $valid = $req->validate([
+            'name' => 'required',
+            'email' => 'required|unique:users',
+            'password' => 'required'
+        ]);
+        
+        $user = new MUser();
+        $user->name = $req->name;
+        $user->email = $req->email;
+        $user->password = bcrypt($req->password);
+        $user->save();
+
+        $response = [
+            'status' => true,
+            'msg' => 'Success',
+            'content' => $user
+        ];
+        return response()->json(compact('response'), 200);
+
+    }
+
+    public function editUser(Request $req){
+
+        $valid = $req->validate([
+            'name' => 'required',
+            'email' => 'required',
+        ]);
+
+        DB::table('users')->where('id', $req->id)
+            ->update(['name' => $req->name,
+                        'email' => $req->email]);
+
+        $user = MUser::find($req->id);
+
+        if ($user) {
+
+            $response = [
+                'status' => true,
+                'msg' => 'Success',
+                'content' => [
+                    'id' => $user->id,
+                    'name' => $user->name,
+                    'email' => $user->email,
+                    'status' => $user->status
+                ]
+            ];
+
+            return response()->json(compact('response'), 200);
+        }
+    }
+
+    public function resetPassword(Request $req){
+        $user = MUser::find($req->id);
+        $user->password = bcrypt('1234567');
+        $user->save();
+
+        $response = [
+            'status' => true,
+            'msg' => 'Success',
+        ];
+
+        return response()->json(compact('response'), 200);
+    }
+
+    public function removeUser(Request $req){
+        $user = MUser::find($req->id);
+        $user->delete();
+        $response = [
+            'status' => true,
+            'msg' => 'Success',
+        ];
+        return response()->json(compact(''), 200);
     }
 }

@@ -45,4 +45,42 @@ class Berita extends Controller
             return response()->json(compact('response'), 200);
         }
     }
+
+    public function updateNews(Request $req){
+        $validate = \Validator::make($req->all(), [
+            'id' => 'required',
+            'isi_berita' => 'required'
+        ]);
+        if ($validate->fails()) {
+            $response = [
+                'status' => false,
+                'msg' => 'Berita harus diisi'
+            ];
+            return response()->json(compact('response'), 200);
+        }else{
+            $news = News::find($req->id);
+            $news->tampilkan = $req->status;
+            $news->isi_berita = $req->isi_berita;
+            $news->save();
+            
+            $response = [
+                'status' => true,
+                'msg'  => 'Success',
+                'content' => $news
+            ];
+            return response()->json(compact('response'), 200);
+        }
+
+    }
+    
+    public function deleteNews($id){
+        $news = News::find($id);
+        $news->delete();
+
+        $response = [
+            'status' => true,
+            'msg' => 'Success'
+        ];
+        return response()->json(compact('response'), 200);
+    }
 }

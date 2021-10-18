@@ -53,7 +53,7 @@ class Layanan extends Controller
 
     public function updateData(Request $req){
         # validate
-
+        
         $layanan= MLayanan::find($req->id);
         $layanan->kode_layanan = $req->code;
         $layanan->nama_layanan = $req->name;
@@ -75,7 +75,12 @@ class Layanan extends Controller
             'status' => true,
             'msg' => 'Success'
         ];
-
         return response()->json(compact('response'), 200);
+    }
+
+
+    public function getLimiter(){
+        $limiter = MLayanan::get(['id', 'nama_layanan as layanan', 'limit_time_start as limit_start', 'limit_time_end as limit_end', 'limit_quota']);
+        return response()->json(compact('limiter'), 200);
     }
 }
