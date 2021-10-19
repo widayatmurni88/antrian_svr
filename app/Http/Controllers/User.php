@@ -149,14 +149,22 @@ class User extends Controller
         return response()->json(compact('response'), 200);
     }
 
-    public function removeUser(Request $req){
-        $user = MUser::find($req->id);
-        $user->delete();
-        $response = [
-            'status' => true,
-            'msg' => 'Success',
-        ];
-        return response()->json(compact(''), 200);
+    public function removeUser($id){
+        $user = MUSer::find($id);
+        if ($user) {
+            $user->delete();
+            $response = [
+                'status' => true,
+                'msg' => 'Success',
+            ];
+            return response()->json(compact('response'), 200);
+        }else{
+            $response = [
+                'status' => false,
+                'msg' => 'User not found',
+            ];
+            return response()->json(compact('response'), 200);
+        }
     }
 
     public function superLogin(Request $req){

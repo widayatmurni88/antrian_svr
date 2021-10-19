@@ -83,4 +83,17 @@ class Berita extends Controller
         ];
         return response()->json(compact('response'), 200);
     }
+
+    public function setStatus(Request $req){
+        $update = News::find($req->id);
+        $update->tampilkan = $req->status;
+        $update->save();
+
+        $response = [
+            'status' => true,
+            'msg' => 'Success',
+            'content' => $update
+        ];
+        return response()->json(compact('response'), 200);
+    }
 }

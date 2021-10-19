@@ -25,6 +25,7 @@ use App\Http\Controllers\Multimedia;
 // });
 
 Route::group(['prefix' => 'multimedia'], function ($router){
+    Route::get('/getVideos', [Multimedia::class, 'getVideo']);
     // admin area
     Route::get('/getMedia', [Multimedia::class, 'getMedia']);
     Route::post('/uploadFile', [Multimedia::class, 'uploadFile']);
@@ -40,6 +41,7 @@ Route::group(['prefix' => 'news'], function ($router){
     Route::post('/saveNews', [Berita::class, 'saveNews']);
     Route::put('/updateNews', [Berita::class, 'updateNews']);
     Route::delete('/delete/{id}', [Berita::class, 'deleteNews']);
+    Route::post('/setStatus', [Berita::class, 'setStatus']);
 });
 
 Route::group(['prefix' => 'layanan'], function ($router){
@@ -87,5 +89,5 @@ Route::group(['prefix' => 'user'], function ($router){
     Route::post('/addUser', [User::class, 'addUser']);
     Route::post('/editUser', [User::class, 'editUser']);
     Route::post('/resetPassword', [User::class, 'resetPassword']);
-    Route::delete('/removeUser', [User::class, 'removeUser']);
+    Route::delete('/removeUser/{id}', [User::class, 'removeUser']);
 });

@@ -90,6 +90,7 @@ class Multimedia extends Controller{
         $vid = Media::find($id);
         if ($vid) {
             $vid->visible = !$vid->visible;
+            $vid->save();
             $vid = [
                 'id' => $vid->id,
                 'title' => $vid->title,
@@ -110,5 +111,15 @@ class Multimedia extends Controller{
         }
 
         return response()->json(compact('response'), 200);
+    }
+
+    public function getVideo(){
+        $medias = [];
+        $media = Media::where('visible', true)->get(['filename']);
+        foreach ($media as $item) {
+            $medias = Arr::prepend($medias, asset('video/' . $item->filename));
+        }
+
+        return response()->json(compact('medias'), 200);
     }
 }
