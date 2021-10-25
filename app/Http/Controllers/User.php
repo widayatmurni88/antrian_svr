@@ -75,7 +75,7 @@ class User extends Controller
     }
 
     public function getProfile($id){
-        $user = MUser::find($id)->first();
+        $user = MUser::where('id', $id)->first();
         return response()->json(compact('user'), 200);
     }
 

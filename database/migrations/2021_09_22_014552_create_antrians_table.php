@@ -18,8 +18,8 @@ class CreateAntriansTable extends Migration
             $table->integer('nomor_antrian');
             $table->boolean('status_call')->default(false);
             $table->string('kode_booking_online')->nullable();
-            $table->unsignedBigInteger('id_layanan');
-            $table->foreign('id_layanan')->references('id')->on('layanans');
+            $table->unsignedBigInteger('id_layanan')->nullable();
+            $table->foreign('id_layanan')->references('id')->on('layanans')->onDelete('set null');
             $table->unsignedBigInteger('id_loket')->nullable();
             $table->foreign('id_loket')->references('id')->on('lokets');
             $table->unsignedBigInteger('id_user')->nullable();

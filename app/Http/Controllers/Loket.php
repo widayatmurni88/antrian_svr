@@ -8,6 +8,11 @@ use App\Models\Loket as MLoket;
 
 class Loket extends Controller
 {
+    public function getLokets(){
+        $lokets = Mloket::get(['id', 'nama_loket as loketNo']);
+        return response()->json(compact('lokets'), 200);
+    }
+
     public function getLoket(){
         $loket = DB::table('lokets')
                  ->join('layanans', 'lokets.id_layanan', '=', 'layanans.id')
@@ -20,7 +25,7 @@ class Loket extends Controller
         $loket = DB::table('lokets')
                  ->where('id', '=', $id)
                  ->select('id', 'nama_loket as loketNo')
-                 ->get()[0];
+                 ->first();
         return response()->json(compact('loket'), 200);
     }
 

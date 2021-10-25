@@ -3,6 +3,8 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
+use Illuminate\Support\Arr;
+use Illuminate\Support\Facades\DB;
 use App\Models\Layanan as MLayanan;
 
 class Layanan extends Controller
@@ -10,6 +12,37 @@ class Layanan extends Controller
     public function getLayanan(){
         $layanan = MLayanan::get(['id','nama_layanan as layananName', 'kode_layanan as layananCode']);
         return response()->json(compact('layanan'));
+    }
+
+    public function getLayananWithLastAntrian(){
+        $layanans = [];
+        $lays = DB::table('layanans')
+                    ->orderBy('kode_layanan', 'DESC')
+                    ->get(['layanans.id','layanans.nama_layanan', 'layanans.kode_layanan']);
+        foreach ($lays as $layanan) {
+            $last_antrian = DB::table('antrians')
+                    ->where('id_layanan', $layanan->id)
+                    ->whereDate('created_at', date('Y-m-d'))
+                    ->orderBy('nomor_antrian', 'DESC')
+                    ->first();
+            
+            if ($last_antrian) {
+                $last = $last_antrian->nomor_antrian;
+            }else{
+                $last = 0;
+            }
+
+            $layanan_with_nomor = [
+                'id' => $layanan->id,
+                'kode' => $layanan->kode_layanan,
+                'nama' => $layanan->nama_layanan,
+                'nomor_antrian_terakhir' => $last
+            ];
+
+            $layanans = Arr::prepend($layanans, $layanan_with_nomor);
+
+        }
+        return response()->json(compact('layanans'), 200);
     }
 
     public function getLayananName($code){
@@ -77,7 +110,6 @@ class Layanan extends Controller
         ];
         return response()->json(compact('response'), 200);
     }
-
 
     public function getLimiter(){
         $limiter = MLayanan::get(['id', 'nama_layanan as layanan', 'limit_time_start as limit_start', 'limit_time_end as limit_end', 'limit_quota']);

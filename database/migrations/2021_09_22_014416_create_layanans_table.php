@@ -17,8 +17,8 @@ class CreateLayanansTable extends Migration
             $table->id();
             $table->string('nama_layanan');
             $table->string('kode_layanan');
-            $table->string('limit_time_start')->default('00.00');
-            $table->string('limit_time_end')->default('00.00');
+            $table->string('limit_time_start')->default('00:00:00');
+            $table->string('limit_time_end')->default('00:00:00');
             $table->string('limit_quota')->default(0);
             $table->timestamps();
         });
