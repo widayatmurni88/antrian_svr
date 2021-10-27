@@ -62,7 +62,7 @@ Route::group(['prefix' => 'layanan'], function ($router){
 Route::group(['prefix' => 'loket'], function ($router){
     Route::get('/getLokets', [Loket::class, 'getLokets']);
     Route::get('/getLoket', [Loket::class, 'getLoket']);
-    Route::get('/getLoketSingle/{id}', [Loket::class, 'getLoketSingle']);
+    Route::get('/getLoketSingle/{id?}', [Loket::class, 'getLoketSingle']);
     // admin area
     Route::get('/getAllLoket', [Loket::class, 'getAllLoket']);
     Route::post('/addLoket', [Loket::class, 'addLoket']);
@@ -72,7 +72,7 @@ Route::group(['prefix' => 'loket'], function ($router){
 
 Route::group(['prefix' => 'antrian'], function($router){
     Route::get('/getAllAntrianTerahir', [Antrian::class, 'getAllAntrianTerahir']);
-    Route::get('/getAntrianTrakhirInLoket/{idLayanan}/{idLoket}', [Antrian::class, 'getAntrianTrakhirInLoket']);
+    Route::get('/getAntrianTrakhirInLoket/{idLayanan}', [Antrian::class, 'getAntrianTrakhirInLoket']);
     Route::get('/getLast/{idLayanan}', [Antrian::class, 'getNomorAntrian']);
     Route::post('/postGetNomorAntrian', [Antrian::class, 'postGetNomorAntrian']);
     Route::get('/cekPembatasan/{id}', [Antrian::class, 'cekPembatasan']);

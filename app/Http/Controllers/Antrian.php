@@ -167,9 +167,8 @@ class Antrian extends Controller
         return response()->json(compact('antrian'), 200);
     }
 
-    public function getAntrianTrakhirInLoket($idLayanan, $idLoket){
+    public function getAntrianTrakhirInLoket($idLayanan){
         $antrian = MAntri::join('layanans', 'layanans.id', '=', 'antrians.id_layanan')
-                            ->where('id_loket', $idLoket)
                             ->where('id_layanan', $idLayanan)
                             ->where('status_call', true)
                             ->whereDate('antrians.created_at', '=', date('Y-m-d'))

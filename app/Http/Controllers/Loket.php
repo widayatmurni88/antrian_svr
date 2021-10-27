@@ -25,7 +25,13 @@ class Loket extends Controller
         $loket = DB::table('lokets')
                  ->where('id', '=', $id)
                  ->select('id', 'nama_loket as loketNo')
+                 ->get();
+        if ($loket->count() == 0) {
+            $loket = DB::table('lokets')
+                 ->select('id', 'nama_loket as loketNo')
+                 ->orderBy('id', 'ASC')
                  ->first();
+        }
         return response()->json(compact('loket'), 200);
     }
 
