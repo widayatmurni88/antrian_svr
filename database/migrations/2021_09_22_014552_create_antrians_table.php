@@ -21,7 +21,7 @@ class CreateAntriansTable extends Migration
             $table->unsignedBigInteger('id_layanan')->nullable();
             $table->foreign('id_layanan')->references('id')->on('layanans')->onDelete('set null');
             $table->unsignedBigInteger('id_loket')->nullable();
-            $table->foreign('id_loket')->references('id')->on('lokets');
+            $table->foreign('id_loket')->references('id')->on('lokets')->onDelete('set null');
             $table->unsignedBigInteger('id_user')->nullable();
             $table->foreign('id_user')->references('id')->on('users');
             $table->timestamps();

@@ -20,7 +20,7 @@ class CreateLoketsTable extends Migration
             $table->unsignedBigInteger('id_layanan')->nullable();
             $table->timestamps();
 
-            $table->foreign('id_layanan')->references('id')->on('layanans')->onDelete('cascade')->onUpdate('cascade');
+            $table->foreign('id_layanan')->references('id')->on('layanans')->onDelete('set null')->onUpdate('cascade');
         });
     }
 

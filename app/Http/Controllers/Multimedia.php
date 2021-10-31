@@ -122,4 +122,14 @@ class Multimedia extends Controller{
 
         return response()->json(compact('medias'), 200);
     }
+
+    public function getVideos(){
+        $medias = [];
+        $media = Media::where('visible', true)->get(['filename']);
+        foreach ($media as $item) {
+            $medias = Arr::prepend($medias, asset('video/' . $item->filename));
+        }
+
+        return $medias;
+    }
 }

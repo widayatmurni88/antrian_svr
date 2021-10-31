@@ -8,6 +8,7 @@ use App\Http\Controllers\Loket;
 use App\Http\Controllers\User;
 use App\Http\Controllers\Antrian;
 use App\Http\Controllers\Multimedia;
+use App\Http\Controllers\Display;
 
 /*
 |--------------------------------------------------------------------------
@@ -97,4 +98,8 @@ Route::group(['prefix' => 'user'], function ($router){
     Route::post('/editUser', [User::class, 'editUser']);
     Route::post('/resetPassword', [User::class, 'resetPassword']);
     Route::delete('/removeUser/{id}', [User::class, 'removeUser']);
+});
+
+Route::group(['prefix' => 'display'], function ($router){
+    Route::get('/', [Display::class, 'getDisplayDataOnStartUp']);
 });
