@@ -190,7 +190,7 @@ class User extends Controller
             if (!Auth::attempt($cred)) {
                 $res = [
                     'status' => 'error',
-                    'msg' => 'Unathorized! Username or Password mismatch',
+                    'msg' => 'Unathorized! Username & Password mismatch',
                     'errors' => null,
                     'content' => null,
                 ];

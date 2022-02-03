@@ -8,6 +8,12 @@ use App\Models\Loket as MLoket;
 
 class Loket extends Controller
 {
+    public function getLoketss(){
+        $lokets=Mloket::orderBy('nama_loket', 'DESC')
+                ->get(['id', 'nama_loket as loket']);
+        return $lokets;
+    }
+
     public function getLokets(){
         $lokets = Mloket::get(['id', 'nama_loket as loketNo']);
         return response()->json(compact('lokets'), 200);

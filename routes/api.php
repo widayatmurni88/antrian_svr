@@ -9,6 +9,9 @@ use App\Http\Controllers\User;
 use App\Http\Controllers\Antrian;
 use App\Http\Controllers\Multimedia;
 use App\Http\Controllers\Display;
+use App\Http\Controllers\Dashboard;
+use App\Http\Controllers\Report;
+use App\Http\Controllers\TiketConf;
 
 /*
 |--------------------------------------------------------------------------
@@ -56,7 +59,7 @@ Route::group(['prefix' => 'layanan'], function ($router){
     Route::get('/removeLayanan/{id}',[Layanan::class, 'removeLayanan']);
 
     Route::get('/getLimiter', [Layanan::class, 'getLimiter']);
-    Route::post('updateLimit', [Layanan::class, 'updateLimit']);
+    Route::post('/updateLimit', [Layanan::class, 'updateLimit']);
     
 });
 
@@ -80,6 +83,7 @@ Route::group(['prefix' => 'antrian'], function($router){
     
     Route::group(['middleware' => 'auth:sanctum'], function () {
         Route::get('getCallAntrian/{idLayanan}/{idLoket}', [Antrian::class, 'getCallAntrian']);
+        Route::get('getSisaAntrian/{idLayanan}', [Antrian::class, 'getSisaAntrian']);
     });
 });
 
@@ -102,4 +106,22 @@ Route::group(['prefix' => 'user'], function ($router){
 
 Route::group(['prefix' => 'display'], function ($router){
     Route::get('/', [Display::class, 'getDisplayDataOnStartUp']);
+});
+
+Route::group(['prefix' => 'dashboard'], function () {
+    Route::get('/getRekapAntrian', [Dashboard::class, 'getRekapAntrian']);
+});
+
+Route::group(['prefix' => 'report'], function() {
+    Route::get('/', [Report::class, 'index']);
+    Route::get('getMonthYear', [Report::class, 'getMonthYears']);
+    Route::get('getReportData/{month?}/{years?}', [Report::class, 'getReportData']);
+});
+
+Route::group(['prefix' => 'tiket_conf'], function() {
+    Route::get('/', [TiketConf::class, 'getGlobalConf']);
+    Route::post('upload_logo', [TiketConf::class, 'uploadLogo']);
+    Route::post('edited', [TiketConf::class, 'saveEdited']);
+    Route::get('get_spesific_conf/{idLayanan?}', [TiketConf::class, 'getSpesificConf']);
+    Route::post('update_spesific_conf', [TiketConf::class, 'saveSpesificConf']);
 });

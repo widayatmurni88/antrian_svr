@@ -19,7 +19,8 @@ class DatabaseSeeder extends Seeder
             Lokets::class,
             Beritas::class,
             UserSeed::class,
-            AntrianSeed::class
+            AntrianSeed::class,
+            GlobalConfs::class,
         ]);
     }
 }

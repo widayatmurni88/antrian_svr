@@ -9,6 +9,36 @@ use App\Models\Antrian as MAntri;
 
 class Antrian extends Controller
 {
+    protected function getLastNomorAntrian($idLayanan){
+        $lastNum = MAntri::where('id_layanan', '=', $idLayanan)
+                            ->whereDate('created_at', '=', date('Y-m-d'))
+                            ->orderBy('nomor_antrian', 'DESC')
+                            ->get(['nomor_antrian'])->first();
+        if ($lastNum) {
+            return $lastNum->nomor_antrian;
+        }else{
+            return 0;
+        }
+    }
+
+    protected function sisaAntrian($idLayanan){
+        $sisa = MANtri::where('id_layanan', $idLayanan)
+                        ->where('status_call', false)
+                        ->whereDate('created_at', date('Y-m-d'))
+                        ->get()->count();
+    
+        return $sisa;
+    }
+
+    public function getSisaAntrian($idLayanan){
+        $response = [
+            'id' => $idLayanan,
+            'sisa' => $this->sisaAntrian($idLayanan)
+        ];
+
+        return response()->json(compact('response'), 200);
+    }
+
     public function cekPembatasan($idLayanan){
         $res = [
             'status' => true,
@@ -41,18 +71,6 @@ class Antrian extends Controller
         }
         
         return $res;
-    }
-    
-    protected function getLastNomorAntrian($idLayanan){
-        $lastNum = MAntri::where('id_layanan', '=', $idLayanan)
-                            ->whereDate('created_at', '=', date('Y-m-d'))
-                            ->orderBy('nomor_antrian', 'DESC')
-                            ->get(['nomor_antrian'])->first();
-        if ($lastNum) {
-            return $lastNum->nomor_antrian;
-        }else{
-            return 0;
-        }
     }
 
     public function getNomorAntrian($idLayanan){
@@ -104,7 +122,7 @@ class Antrian extends Controller
     
             $antrian = MAntri::where('antrians.id', '=', $id)
                                 ->join('layanans', 'layanans.id', '=', 'antrians.id_layanan')
-                                ->get(['nomor_antrian', 'antrians.kode_booking_online as kode_booking', 'kode_layanan', 'nama_layanan', 'antrians.created_at'])[0];
+                                ->get(['nomor_antrian', 'antrians.kode_booking_online as kode_booking', 'layanans.id as id_layanan', 'kode_layanan', 'nama_layanan', 'antrians.created_at'])[0];
             
             $response = [
                 'status' => true,

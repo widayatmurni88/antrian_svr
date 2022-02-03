@@ -9,6 +9,12 @@ use App\Models\Layanan as MLayanan;
 
 class Layanan extends Controller
 {
+
+    public function getLayanans(){
+        return MLayanan::orderBy('id', 'DESC')
+                        ->get(['id', 'nama_layanan as name', 'kode_layanan as code']);
+    }
+
     public function getLayanan(){
         $layanan = MLayanan::get(['id','nama_layanan as layananName', 'kode_layanan as layananCode']);
         return response()->json(compact('layanan'));
