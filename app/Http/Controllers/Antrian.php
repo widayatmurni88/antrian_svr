@@ -6,6 +6,8 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Arr;
 use carbon\Carbon;
 use App\Models\Antrian as MAntri;
+use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Collection;
 
 class Antrian extends Controller
 {
@@ -122,11 +124,55 @@ class Antrian extends Controller
     
             $antrian = MAntri::where('antrians.id', '=', $id)
                                 ->join('layanans', 'layanans.id', '=', 'antrians.id_layanan')
-                                ->get(['nomor_antrian', 'antrians.kode_booking_online as kode_booking', 'layanans.id as id_layanan', 'kode_layanan', 'nama_layanan', 'antrians.created_at'])[0];
+                                ->get(['nomor_antrian', 
+                                        'antrians.kode_booking_online as kode_booking', 
+                                        'layanans.id as id_layanan', 'kode_layanan', 
+                                        'layanans.show_footer',
+                                        'layanans.show_qr',
+                                        'layanans.qr_text',
+                                        'layanans.notes',
+                                        'nama_layanan', 
+                                        'antrians.created_at'])[0];
+
+            $tmpAntrian = collect([
+                'id_layanan' => $antrian['id_layanan'],
+                'kode_booking' => $antrian['kode_booking'],
+                'kode_layanan' => $antrian['kode_layanan'],
+                'nama_layanan' => $antrian['nama_layanan'],
+                'nomor_antrian' => $antrian['nomor_antrian'],
+                'created_at' => $antrian['created_at']
+            ]);
+
+            $tmpConf = collect([
+                'show_footer' => $antrian['show_footer'],
+                'show_qr' => $antrian['show_qr']
+            ]);
+
+            if ($antrian['show_qr']) {
+                $tmpConf->prepend($antrian['qr_text'], 'qr_text');
+                $tmpConf->prepend($antrian['notes'], 'notes');
+            }
+
+
+            $tmp = DB::table('global_confs')->get(['name', 'value']);
+
+            foreach ($tmp as $itm) {
+                if ($itm->name == 'footer') {
+                    if ($antrian['show_footer']) {
+                        $tmpConf->prepend($itm->value, $itm->name);   
+                    }
+                }else if($itm->name == 'logo'){
+                    $tmpConf->prepend(asset('images/' . $itm->value), $itm->name);
+                }else{
+                    $tmpConf->prepend($itm->value, $itm->name);
+                }
+            }
+
+            $tmpAntrian->prepend($tmpConf, 'configs');
             
             $response = [
                 'status' => true,
-                'antrian' => $antrian
+                'antrian' => $tmpAntrian
             ];                    
             return response()->json(compact('response'), 200);
         }else{
