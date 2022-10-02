@@ -243,4 +243,17 @@ class Antrian extends Controller
         return response()->json(compact('antrian'), 200);
     }
 
+    public function getPengambilan($idLayanan) {
+        $pengambilans = MAntri::where('antrians.status_call', '=', false)
+                        ->where('antrians.id_layanan', '=', $idLayanan)
+                        ->whereDate('antrians.created_at', '=', date('Y-m-d'))
+                        ->join('layanans', 'layanans.id', '=', 'antrians.id_layanan')
+                        ->orderBy('antrians.nomor_antrian', 'ASC')
+                        ->get([
+                            'antrians.nomor_antrian as no_antri',
+                            'antrians.kode_booking_online as no_permohonan'
+                        ]);
+        return response()->json(compact('pengambilans'));
+    }
+
 }

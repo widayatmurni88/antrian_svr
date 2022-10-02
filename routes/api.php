@@ -84,6 +84,7 @@ Route::group(['prefix' => 'antrian'], function($router){
     Route::group(['middleware' => 'auth:sanctum'], function () {
         Route::get('getCallAntrian/{idLayanan}/{idLoket}', [Antrian::class, 'getCallAntrian']);
         Route::get('getSisaAntrian/{idLayanan}', [Antrian::class, 'getSisaAntrian']);
+        Route::get('getPengambilan/{idLayanan}', [Antrian::class, 'getPengambilan']);
     });
 });
 
