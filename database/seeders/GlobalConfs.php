@@ -16,6 +16,7 @@ class GlobalConfs extends Seeder
         $items = [
             ['name' => 'kop', 'value' => 'KOP DIATAS'],
             ['name' => 'footer', 'value' => 'FOOTER BAWAH'],
+            ['name' => 'aduan', 'value' => 'Pengaduan'],
             ['name' => 'logo', 'value' => 'logo.png'],
         ];
 
