@@ -62,7 +62,7 @@ class Display extends Controller
 
     protected function getAllLoket(){
         return DB::table('lokets')
-                ->select(['id', 'nama_loket as name'])
+                ->select(['id', 'nama_loket as code', 'desc as name'])
                 ->orderBy('nama_loket', 'DESC')
                 ->get();
     }
